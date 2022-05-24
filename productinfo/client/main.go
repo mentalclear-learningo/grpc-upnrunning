@@ -5,7 +5,8 @@ import (
 	"log"
 	"time"
 
-	pb "github.com/mentalclear-learningo/grpc-upnrunning/ecommerce"
+	pb "productinfo/client/ecommerce"
+
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )

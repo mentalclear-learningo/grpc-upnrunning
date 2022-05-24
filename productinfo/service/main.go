@@ -4,8 +4,8 @@ import (
 	"log"
 	"net"
 
-	pb "github.com/mentalclear-learningo/grpc-upnrunning/ecommerce"
-	srv "github.com/mentalclear-learningo/grpc-upnrunning/service"
+	pb "productinfo/service/ecommerce"
+
 	"google.golang.org/grpc"
 )
 
@@ -19,7 +19,7 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	s := grpc.NewServer()
-	pb.RegisterProductInfoServer(s, &srv.Server{})
+	pb.RegisterProductInfoServer(s, &server{})
 
 	log.Printf("Starting gRPC listener on port " + port)
 	if err := s.Serve(lis); err != nil {
