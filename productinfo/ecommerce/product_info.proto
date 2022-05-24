@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+import "google/protobuf/wrappers.proto";
+
 package ecommerce;
 
 option go_package = "./ecommerce";
@@ -8,7 +10,6 @@ service ProductInfo {
     rpc addProduct(Product) returns (ProductID){};
     rpc getProduct(ProductID) returns (Product){};
 }
-
 
 message Product {
     string id = 1;
@@ -19,4 +20,16 @@ message Product {
 
 message ProductID {
     string value = 1;
+}
+
+service OrderManagement {
+    rpc getOrder(google.protobuf.StringValue) returns (Order);
+}
+
+message Order { 
+    string id = 1;
+    repeated string items = 2;
+    string description = 3;
+    float price = 4;
+    string destination = 5;
 }
