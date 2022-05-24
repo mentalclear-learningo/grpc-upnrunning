@@ -7,6 +7,7 @@ import (
 	pb "productinfo/service/ecommerce"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 const (
@@ -20,6 +21,10 @@ func main() {
 	}
 	s := grpc.NewServer()
 	pb.RegisterProductInfoServer(s, &server{})
+	pb.RegisterOrderManagementServer(s, &server{})
+
+	// Register reflection service on gRPC server.
+	reflection.Register(s)
 
 	log.Printf("Starting gRPC listener on port " + port)
 	if err := s.Serve(lis); err != nil {

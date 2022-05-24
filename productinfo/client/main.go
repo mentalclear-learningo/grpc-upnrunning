@@ -7,6 +7,7 @@ import (
 
 	pb "productinfo/client/ecommerce"
 
+	"github.com/golang/protobuf/ptypes/wrappers"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
@@ -22,7 +23,22 @@ func main() {
 	}
 	defer conn.Close()
 	c := pb.NewProductInfoClient(conn)
+	oc := pb.NewOrderManagementClient(conn)
 
+	dialProductInfo(c)
+	dialOrderManagement(oc)
+}
+
+func dialOrderManagement(c pb.OrderManagementClient) {
+	// Get Order
+	retrievedOrder, err := c.GetOrder(context.Background(), &wrappers.StringValue{Value: "106"})
+	if err != nil {
+		log.Fatalf("Could not get Order: %v", err)
+	}
+	log.Print("GetOrder Response -> : ", retrievedOrder)
+}
+
+func dialProductInfo(c pb.ProductInfoClient) {
 	name := "Apple iPhone 11"
 	description := `Meet Apple iPhone 11. All-new dual-camera system with
 					Ultra Wide and Night mode.`

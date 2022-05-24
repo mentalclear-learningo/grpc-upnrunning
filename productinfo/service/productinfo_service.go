@@ -6,6 +6,7 @@ import (
 	pb "productinfo/service/ecommerce"
 
 	"github.com/gofrs/uuid"
+	"github.com/golang/protobuf/ptypes/wrappers"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -13,7 +14,9 @@ import (
 // server is used to implement ecommerce/product_info.
 type server struct {
 	productMap map[string]*pb.Product
+	orderMap   map[string]*pb.Order
 	pb.UnimplementedProductInfoServer
+	pb.UnimplementedOrderManagementServer
 }
 
 // AddProduct implements ecommerce.AddProduct
@@ -40,4 +43,12 @@ func (s *server) GetProduct(ctx context.Context, in *pb.ProductID) (*pb.Product,
 		return value, status.New(codes.OK, "").Err()
 	}
 	return nil, status.Errorf(codes.NotFound, "Product does not exist.", in.Value)
+}
+
+// server/main.go
+
+func (s *server) GetOrder(ctx context.Context, orderId *wrappers.StringValue) (*pb.Order, error) {
+	// Service Implementation.
+	ord := s.orderMap[orderId.Value]
+	return ord, nil
 }
