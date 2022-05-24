@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package ecommerce;
 
-option go_package = "service/ecommerce";
+option go_package = "./ecommerce";
 
 service ProductInfo {
     rpc addProduct(Product) returns (ProductID){};
